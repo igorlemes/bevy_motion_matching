@@ -1,16 +1,17 @@
-use bevy::{
-    app::{App, Startup, Update},
-    diagnostic::FrameTimeDiagnosticsPlugin,
-    render::{
-        camera::ClearColor,
-        color::Color,
-    },
-    DefaultPlugins,
-};
+use bevy::asset::Assets;
+use bevy::core_pipeline::core_3d::Camera3dBundle;
+use bevy::ecs::system::{Commands, ResMut};
+use bevy::input::gamepad::{Gamepad, GamepadButton, GamepadButtonType};
+use bevy::math::primitives::{Cuboid, Plane3d};
+use bevy::math::{EulerRot, Quat, Vec3};
+use bevy::pbr::{DirectionalLight, DirectionalLightBundle, PbrBundle, StandardMaterial};
+use bevy::render::camera::{OrthographicProjection, ScalingMode};
+use bevy::render::color::Color;
+use bevy::render::mesh::Mesh;
+use bevy::transform::components::Transform;
 use bevy_third_person_camera::controller::*; // optional if you want movement controls
 use bevy_third_person_camera::*;
 use std::f32::consts::PI;
-
 
 pub fn setup_3d_scene(
     mut commands: Commands,
@@ -58,16 +59,16 @@ pub fn setup_3d_scene(
             speed: 3.5,
             sprint_speed: 4.5,
             gamepad_settings: ControllerGamepadSettings {
-                sprint: GamepadButton::new(Gamepad::new(0), GamepadButtonType::LeftThumb) // default
+                sprint: GamepadButton::new(Gamepad::new(0), GamepadButtonType::LeftThumb), // default
             },
-             ..default()
-         }, // optional if you want movement controls
+            ..Default::default()
+        }, // optional if you want movement controls
     ));
 
     let plane_mesh = meshes.add(Plane3d::default());
     // Chessboard Plane
     let black_material = materials.add(StandardMaterial {
-        base_color: Color::GRAY,
+        base_color: Color::GRAY * 0.8,
         reflectance: 0.3,
         perceptual_roughness: 0.8,
         ..Default::default()
@@ -96,4 +97,3 @@ pub fn setup_3d_scene(
         }
     }
 }
-
