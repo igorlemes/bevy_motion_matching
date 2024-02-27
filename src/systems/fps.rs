@@ -1,0 +1,85 @@
+use bevy::{
+    diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin},
+    ecs::{
+        query::With,
+        system::{Commands, Query, Res},
+    },
+    render::color::Color,
+    text::{Text, TextSection, TextStyle},
+    ui::node_bundles::TextBundle,
+};
+
+use crate::components::fps::FpsText;
+
+pub fn fps_text_update_system(
+    diagnostics: Res<DiagnosticsStore>,
+    mut query: Query<&mut Text, With<FpsText>>,
+) {
+    for mut text in &mut query {
+        // try to get a "smoothed" FPS value from Bevy
+        if let Some(value) = diagnostics
+            .get(&FrameTimeDiagnosticsPlugin::FPS)
+            .and_then(|fps| fps.smoothed())
+        {
+            // Format the number as to leave space for 4 digits, just in case,
+            // right-aligned and rounded. This helps readability when the
+            // number changes rapidly.
+            text.sections[1].value = format!("{value:>4.0}");
+
+            // Let's make it extra fancy by changing the color of the
+            // text according to the FPS value:
+            text.sections[1].style.color = if value >= 60.0 {
+                Color::rgb((1.0 - (value - 60.0) / (120.0 - 60.0)) as f32, 1.0, 0.0)
+            } else if value >= 30.0 {
+                // Between 30-60 FPS, gradually transition from red to yellow
+                Color::rgb(1.0, ((value - 30.0) / (60.0 - 30.0)) as f32, 0.0)
+            } else {
+                // Below 30 FPS, use red color
+                Color::rgb(1.0, 0.0, 0.0)
+            }
+        } else {
+            // display "N/A" if we can't get a FPS measurement
+            // add an extra space to preserve alignment
+            text.sections[1].value = " N/A".into();
+            text.sections[1].style.color = Color::GREEN;
+        }
+    }
+}
+
+pub fn setup_fps_counter(mut commands: Commands) {
+    // create our UI root node
+    // this is the wrapper/container for the text
+    // commands.spawn(Camera2dBundle::default());
+    // create our text
+    commands.spawn((
+        FpsText,
+        TextBundle {
+            // use two sections, so it is easy to update just the number
+            text: Text::from_sections([
+                TextSection {
+                    value: "FPS: ".into(),
+                    style: TextStyle {
+                        font_size: 16.0,
+                        color: Color::GREEN,
+                        // if you want to use your game's font asset,
+                        // uncomment this and provide the handle:
+                        // font: my_font_handle
+                        ..Default::default()
+                    },
+                },
+                TextSection {
+                    value: " N/A".into(),
+                    style: TextStyle {
+                        font_size: 16.0,
+                        color: Color::GREEN,
+                        // if you want to use your game's font asset,
+                        // uncomment this and provide the handle:
+                        // font: my_font_handle
+                        ..Default::default()
+                    },
+                },
+            ]),
+            ..Default::default()
+        },
+    ));
+}
