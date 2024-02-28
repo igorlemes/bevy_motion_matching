@@ -1,4 +1,4 @@
-mod camera;
-mod light;
-mod mesh;
-mod player;
+pub mod light;
+pub mod mesh;
+pub mod player;
+pub mod diagnostics;

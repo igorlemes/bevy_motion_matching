@@ -2,14 +2,13 @@ use bevy::{
     diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin},
     ecs::{
         query::With,
-        system::{Commands, Query, Res},
+        system::{Query, Res},
     },
     render::color::Color,
-    text::{Text, TextSection, TextStyle},
-    ui::node_bundles::TextBundle,
+    text::Text
 };
 
-use crate::components::fps::FpsText;
+use crate::components::diagnostics::FpsText;
 
 pub fn fps_text_update_system(
     diagnostics: Res<DiagnosticsStore>,
@@ -46,40 +45,3 @@ pub fn fps_text_update_system(
     }
 }
 
-pub fn setup_fps_counter(mut commands: Commands) {
-    // create our UI root node
-    // this is the wrapper/container for the text
-    // commands.spawn(Camera2dBundle::default());
-    // create our text
-    commands.spawn((
-        FpsText,
-        TextBundle {
-            // use two sections, so it is easy to update just the number
-            text: Text::from_sections([
-                TextSection {
-                    value: "FPS: ".into(),
-                    style: TextStyle {
-                        font_size: 16.0,
-                        color: Color::GREEN,
-                        // if you want to use your game's font asset,
-                        // uncomment this and provide the handle:
-                        // font: my_font_handle
-                        ..Default::default()
-                    },
-                },
-                TextSection {
-                    value: " N/A".into(),
-                    style: TextStyle {
-                        font_size: 16.0,
-                        color: Color::GREEN,
-                        // if you want to use your game's font asset,
-                        // uncomment this and provide the handle:
-                        // font: my_font_handle
-                        ..Default::default()
-                    },
-                },
-            ]),
-            ..Default::default()
-        },
-    ));
-}
