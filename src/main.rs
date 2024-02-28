@@ -17,7 +17,8 @@ use scenes::main_scene::setup_3d_scene;
 use scenes::trigger_viz::setup_2d_scene;
 use systems::{
     diagnostics::fps_text_update_system,
-    trigger_position::{move_circle_x, move_circle_y},
+    trigger_position::{move_circle_x_system, move_circle_y_system},
+    damped_spring::damped_spring_system,
 };
 
 use bevy_egui::{egui, EguiContexts, EguiPlugin};
@@ -30,8 +31,12 @@ fn main() {
         .add_plugins(FrameTimeDiagnosticsPlugin)
         .add_systems(Startup, (setup_fps_counter, setup_2d_scene))
         .add_systems(
-            Update,
-            (fps_text_update_system, move_circle_y, move_circle_x),
+            Update,(
+                fps_text_update_system, 
+                move_circle_y_system, 
+                move_circle_x_system,
+                damped_spring_system
+            ),
         )
         // .add_systems(Startup, (setup_fps_counter, setup_zoom_viewer, setup_3d_scene))
         // .add_systems(Update, (fps_text_update_system))

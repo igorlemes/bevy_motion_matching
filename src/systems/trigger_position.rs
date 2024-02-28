@@ -1,23 +1,14 @@
 use bevy::window::Window;
 use bevy::{
-    ecs::{
-        event::EventReader,
-        query::With,
-        system::{Query, Res},
-    },
-    input::{
-        gamepad::{Gamepad, GamepadButton, GamepadButtonChangedEvent, GamepadButtonType},
-        ButtonInput,
-    },
-    log::info,
+    ecs::{event::EventReader, query::With, system::Query},
+    input::gamepad::{GamepadButtonChangedEvent, GamepadButtonType},
     transform::components::Transform,
-    utils::tracing::Event,
     window::{PrimaryWindow, WindowResized},
 };
 
 use crate::components::spring::ControllerTrigger;
 
-pub fn move_circle_y(
+pub fn move_circle_y_system(
     mut button_event: EventReader<GamepadButtonChangedEvent>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut query: Query<&mut Transform, With<ControllerTrigger>>,
@@ -40,7 +31,7 @@ pub fn move_circle_y(
     }
 }
 
-pub fn move_circle_x(
+pub fn move_circle_x_system(
     mut window_resize_event: EventReader<WindowResized>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut query: Query<&mut Transform, With<ControllerTrigger>>,
