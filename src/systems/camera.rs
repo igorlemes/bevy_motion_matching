@@ -19,7 +19,6 @@ pub fn zoom_camera(
     button_event: GamepadButtonChangedEvent,
     mut query: Query<&mut Projection, With<Camera>>,
 ) {
-
     if button_event.button_type == GamepadButtonType::LeftTrigger2 {
         info!("LeftTrigger2 Pressed {}", button_event.value);
         // Update the scaling_mode: ScalingMode::WindowSize() according to the value of the event

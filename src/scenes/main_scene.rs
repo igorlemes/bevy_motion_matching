@@ -79,7 +79,7 @@ pub fn setup_3d_scene(
             transform: Transform::from_xyz(0.0, 1.0, 0.0),
             ..Default::default()
         },
-        // 
+        //
         ThirdPersonCameraTarget,
         ThirdPersonController {
             speed: 3.5,

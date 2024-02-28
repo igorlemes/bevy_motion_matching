@@ -5,7 +5,7 @@ use bevy::{
         system::{Query, Res},
     },
     render::color::Color,
-    text::Text
+    text::Text,
 };
 
 use crate::components::diagnostics::FpsText;
@@ -44,4 +44,3 @@ pub fn fps_text_update_system(
         }
     }
 }
-

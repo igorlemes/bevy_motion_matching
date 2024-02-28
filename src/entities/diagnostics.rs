@@ -1,3 +1,5 @@
+use crate::components::diagnostics::FpsText;
+use crate::components::diagnostics::ZoomText;
 use bevy::{
     ecs::system::Commands,
     math::Vec3,
@@ -7,8 +9,6 @@ use bevy::{
     transform::components::Transform,
     ui::node_bundles::TextBundle,
 };
-use crate::components::diagnostics::FpsText;
-use crate::components::diagnostics::ZoomText;
 
 pub fn setup_fps_counter(mut commands: Commands) {
     // create our UI root node

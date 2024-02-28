@@ -12,22 +12,16 @@ use bevy::{
     DefaultPlugins,
 };
 
+use entities::diagnostics::{setup_fps_counter, setup_zoom_viewer};
 use scenes::main_scene::setup_3d_scene;
 use scenes::trigger_viz::setup_2d_scene;
-use entities::diagnostics::{
-    setup_fps_counter,
-    setup_zoom_viewer,
-};
 use systems::{
     diagnostics::fps_text_update_system,
-    trigger_position::{
-        move_circle_y,
-        move_circle_x,
-    },
+    trigger_position::{move_circle_x, move_circle_y},
 };
 
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_egui::{egui, EguiContexts, EguiPlugin};
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 fn main() {
     App::new()
@@ -35,12 +29,10 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(FrameTimeDiagnosticsPlugin)
         .add_systems(Startup, (setup_fps_counter, setup_2d_scene))
-        .add_systems(Update, (
-            fps_text_update_system, 
-            move_circle_y, 
-            move_circle_x
-        ))
-        
+        .add_systems(
+            Update,
+            (fps_text_update_system, move_circle_y, move_circle_x),
+        )
         // .add_systems(Startup, (setup_fps_counter, setup_zoom_viewer, setup_3d_scene))
         // .add_systems(Update, (fps_text_update_system))
         .run();
