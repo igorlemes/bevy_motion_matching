@@ -19,13 +19,16 @@ pub fn damped_spring_system(
     });
     if let Some(trigger) = trigger {
         for mut value in query.iter_mut() {
-            // add values to the spring component with ControllerTrigger
-            value.list.push_front(trigger.value);
+            if trigger.button_type == GamepadButtonType::RightTrigger2 {
+                value.list.push_front(trigger.value);
+            } else if trigger.button_type == GamepadButtonType::LeftTrigger2 {
+                value.list.push_front(-trigger.value);
+            }
+
             if value.list.len() > value.max_values {
                 value.list.pop_back();
             }
             info!("Spring: {:?}", value.list);
         }
-
     }
 }
