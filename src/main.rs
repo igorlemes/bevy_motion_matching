@@ -19,7 +19,8 @@ use systems::{
     graphic::{
         move_circle_x_system, 
         move_circle_y_system, 
-        update_position_history
+        update_position_history,
+        draw_spring_lines
     },
 };
 
@@ -29,7 +30,7 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::WHITE))
-        .insert_resource(Time::<Fixed>::from_duration(Duration::from_millis(30)))
+        .insert_resource(Time::<Fixed>::from_duration(Duration::from_millis(100)))
         .add_plugins(DefaultPlugins)
         .add_plugins(FrameTimeDiagnosticsPlugin)
         .add_systems(Startup, (setup_fps_counter, setup_2d_scene))
@@ -40,7 +41,8 @@ fn main() {
                 fps_text_update_system,
                 move_circle_y_system,
                 move_circle_x_system,
-                damped_spring_system
+                damped_spring_system,
+                draw_spring_lines
             ),
         )        // .add_systems(Startup, (setup_fps_counter, setup_zoom_viewer, setup_3d_scene))
         // .add_systems(Update, (fps_text_update_system))

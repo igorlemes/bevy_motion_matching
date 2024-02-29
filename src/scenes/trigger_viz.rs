@@ -51,5 +51,4 @@ pub fn setup_2d_scene(
             PositionHistory::new(100),
         ));
     }
-    
 }

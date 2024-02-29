@@ -1,5 +1,7 @@
 use bevy::ecs::query::Without;
-use bevy::math::Vec2;
+use bevy::gizmos::gizmos::Gizmos;
+use bevy::log::info;
+use bevy::math::{Vec2, Vec3Swizzles};
 use bevy::render::color::Color;
 use bevy::window::Window;
 use bevy::{
@@ -55,16 +57,12 @@ pub fn update_position_history(
             position_history.list.pop_back();
         }
     }
-    if let Some((position_history, c_pos)) = query.iter().next() {
+    if let Some((position_history, _c_pos)) = query.iter().next() {
         for (index, (_, mut transform)) in spring_query.iter_mut().enumerate(){
             if index > 0 {
                 transform.translation.y = position_history.list[index - 1].y;
-                transform.translation.x = position_history.list[index - 1].x - (index + 1) as f32 * 20.0;
+                transform.translation.x = position_history.list[index - 1].x - (index) as f32 * 20.0;
             }            
-        }
-        if let Some((_, mut s_pos)) = spring_query.iter_mut().next() {
-            s_pos.translation.y = c_pos.translation.y;
-            s_pos.translation.x = c_pos.translation.x - 20.0;
         }
     }
 }
@@ -80,6 +78,21 @@ pub fn move_circle_x_system(
                 let width = window.width();
                 transform.translation.x = width * 0.45;
             };
+        }
+    }
+}
+
+pub fn draw_spring_lines(
+    mut gizmos: Gizmos,
+    mut query: Query<&PositionHistory, With<ControllerTrigger>>,
+) {
+    for position_history  in query.iter_mut() {
+        for i in 0..position_history.list.len() - 1 {
+            let start: Vec2 = position_history.list[i].xy() - Vec2::new( (i+1) as f32 * 20.0, 0.0);
+            let end: Vec2 = position_history.list[i + 1].xy() - Vec2::new( (i+2) as f32 * 20.0, 0.0);
+            info!("Start: {:?}, End: {:?}", start, end);
+            let color = Color::rgb(0.0, 0.0, 1.0);
+            gizmos.line_2d(start, end, color);
         }
     }
 }
