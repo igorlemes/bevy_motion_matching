@@ -12,6 +12,7 @@ bevy_egui = "0.25.0"
 bevy_mod_picking = "0.17.0"
 bevy_panorbit_camera = "0.16.0"
 bevy_third_person_camera = "0.1.10"
+rayon = "1.9.0"
 
 [workspace]
 resolver = "2"

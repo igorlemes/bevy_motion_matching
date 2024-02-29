@@ -1,21 +1,14 @@
-use std::collections::VecDeque;
-
 use bevy::asset::Assets;
 use bevy::core_pipeline::core_2d::Camera2dBundle;
-use bevy::ecs::component::Component;
 use bevy::ecs::system::{Commands, ResMut};
-use bevy::gizmos::primitives::dim2::Line2dBuilder;
-use bevy::math::primitives::{Circle, Line2d};
+use bevy::math::primitives::Circle;
 use bevy::math::Vec3;
 use bevy::render::color::Color;
 use bevy::render::mesh::Mesh;
-use bevy::ui::Val;
-use bevy::window::Window;
 use bevy::sprite::{ColorMaterial, MaterialMesh2dBundle, Mesh2dHandle};
 use bevy::transform::components::Transform;
-use bevy::gizmos::gizmos::Gizmos;
 
-use crate::components::spring::{ControllerTrigger, Spring, PositionHistory, SpringLines};
+use crate::components::spring::{ControllerTrigger, Spring, PositionHistory};
 
 
 pub fn setup_2d_scene(

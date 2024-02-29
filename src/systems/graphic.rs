@@ -11,11 +11,11 @@ use bevy::{
     window::{PrimaryWindow, WindowResized},
 };
 
+
 use crate::components::spring::{
     ControllerTrigger, 
     Spring, 
-    PositionHistory, 
-    SpringLines
+    PositionHistory
 };
 
 pub fn move_circle_y_system(
@@ -24,8 +24,8 @@ pub fn move_circle_y_system(
     mut query: Query<(&mut Transform, &mut Spring), With<ControllerTrigger>>,
 ) {
     let trigger = button_event.read().find(|e| {
-        e.button_type == GamepadButtonType::LeftTrigger2
-            || e.button_type == GamepadButtonType::RightTrigger2
+        e.button_type == GamepadButtonType::LeftTrigger2 || 
+        e.button_type == GamepadButtonType::RightTrigger2
     });
     if let Some(trigger) = trigger {
         for (mut transform, mut _spring) in &mut query {
@@ -86,6 +86,7 @@ pub fn draw_spring_lines(
     mut gizmos: Gizmos,
     mut query: Query<&PositionHistory, With<ControllerTrigger>>,
 ) {
+
     for position_history  in query.iter_mut() {
         for i in 0..position_history.list.len() - 1 {
             let start: Vec2 = position_history.list[i].xy() - Vec2::new( (i+1) as f32 * 20.0, 0.0);
